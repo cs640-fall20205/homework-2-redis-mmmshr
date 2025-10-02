@@ -11,17 +11,18 @@
 
 2. (1 point) What is the URL to Redis' documentation on its commands:
 ```
-
+https://redis.io/docs/latest/commands/
 ```
 
 3. (1 point) What is the runtime complexity (in Big-O notation) for LREM?
 ```
-
+The run-time complexity of LREM can go from O(1) in best case to O(N) in worst case where N is the lenght of the list as it has to physically chek each element.
 ```
 
 4. (2 points) Create a structure to hold the value of your address with the key of your first name. For instance, mine would be “heidi”  “CS & IT Department, Herman Hall 207C, Western New England University, Springfield, MA, 01119”. Use the proper Redis command to show that the data has correctly been entered and followed by the results. Show both commands below including the prompts:
 ```
-
+ > SET "Mayank" "13 Breck place, Springfield, MA, 01119"
+ > GET Mayank
 ```
 
 5. (2 points) Create a hash structure to hold your WNE user name, first name, last name, and password. Of course provide a fake password. For instance, my data would be: “he302979”, “heidi”, “ellis”, “xxxx”.  Use the proper Redis command to show that the data has correctly been entered followed by the results. Show both commands below including the command prompts:
