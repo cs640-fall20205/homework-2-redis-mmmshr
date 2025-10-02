@@ -38,7 +38,6 @@ $ ./down.bash
 
 ```
 $ ./up.bash
-$ ./down.bash
 $ sudo cp dump.rdb /tmp/redis-data/dump.rdb
 ```
 
@@ -65,7 +64,6 @@ $ cd redis
 
 ```
 $ ./up.bash
-$ ./down.bash
 $ sudo cp dump.rdb /tmp/redis-data/dump.rdb
 
 ```
@@ -96,4 +94,3 @@ $ ./down.bash
 ```
 
 ## 7. Save work to GitHub
-
