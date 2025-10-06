@@ -28,12 +28,31 @@ The run-time complexity of LREM can go from O(1) in best case to O(N) in worst c
 5. (2 points) Create a hash structure to hold your WNE user name, first name, last name, and password. Of course provide a fake password. For instance, my data would be: “he302979”, “heidi”, “ellis”, “xxxx”.  Use the proper Redis command to show that the data has correctly been entered followed by the results. Show both commands below including the command prompts:
 
 ```
+$ redis-cli
+127.0.0.1:6379> HSET user:mm646806 username mm646806 first_name Mayank last_name Mishra password qwerty1234
+(integer) 4
+
+127.0.0.1:6379> HGETALL user:mm646806
+1) "username"
+2) "mm646806"
+3) "first_name"
+4) "Mayank"
+5) "last_name"
+6) "Mishra"
+7) "password"
+8) "qwerty1234"
 
 ```
 
 6. (2 points) Create a hash that holds your father’s and mother’s names as separate key-value pairs. Use the proper Redis commands to show that the data has correctly been entered followed by the results. Show both commands below including the command prompt:
 ```
-
+127.0.0.1:6379>  HSET family father Manmohan mother Meenakshi
+(integer) 2
+127.0.0.1:6379> HGETALL family
+1) "father"
+2) "Manmohan"
+3) "mother"
+4) "Meenakshi"
 ```
 
 7. (3 points) Use a list to:
@@ -46,7 +65,23 @@ The run-time complexity of LREM can go from O(1) in best case to O(N) in worst c
 
 Show the commands below including the command prompts:
 ```
-
+127.0.0.1:6379> LPUSH my_stack pears
+(integer) 1
+127.0.0.1:6379> LPUSH my_stack apples
+(integer) 2
+127.0.0.1:6379> LPUSH my_stack peaches
+(integer) 3
+127.0.0.1:6379> LPOP my_stack
+"peaches"
+127.0.0.1:6379> LRANGE my_stack 0 -1
+1) "apples"
+2) "pears"
+127.0.0.1:6379> LPUSH my_stack oranges
+(integer) 3
+127.0.0.1:6379> LRANGE my_stack 0 -1
+1) "oranges"
+2) "apples"
+3) "pears"
 ```
 
 8.  (3 points)  In class we talked about the problem with name changes. For instance. Jane Ellen Doe might change her name to Jane Ellen Doe Fitzgerald where Ellen Doe becomes Jane’s middle name. Do the following:
@@ -56,17 +91,61 @@ Show the commands below including the command prompts:
 Write the commands below including the command prompts:
 
 ```
-
+127.0.0.1:6379> HSET person:first_name first Jane
+(integer) 1
+127.0.0.1:6379> HSET person:middle_name middle Ellen
+(integer) 1
+127.0.0.1:6379> HSET person:last_name last Doe
+(integer) 1
+127.0.0.1:6379> MULTI
+OK
+127.0.0.1:6379> HSET person:middle_name middle "Ellen Doe"
+QUEUED
+127.0.0.1:6379> HSET person:last_name last Fitzgerald
+QUEUED
+127.0.0.1:6379> EXEC
+1) (integer) 0
+2) (integer) 0
+127.0.0.1:6379>  HGETALL person:middle_name
+1) "middle"
+2) "Ellen Doe"
+127.0.0.1:6379>  HGETALL person:last_name
+1) "last"
+2) "Fitzgerald"
 ```
 
 9. (2 points) Create a sorted set that holds the costs of the following items:  Cheetos: $2.99, apple: $1.00, Hershey’s: $3.45, and Coke: $1.79.  Print the set in ascending order.  Reduce the price of Hersheys by $1.00 using the ZINCRBY command. Print the set again in ascending order. Show the Redis commands below including the command prompts:
 ```
-
+127.0.0.1:6379> ZADD store 2.99 "Cheetos" 1.00 "Apple" 3.45 "Hersheys" 1.79 "Coke"
+(integer) 4
+127.0.0.1:6379> ZRANGE store 0 -1 WITHSCORES
+1) "Apple"
+2) "1"
+3) "Coke"
+4) "1.79"
+5) "Cheetos"
+6) "2.9900000000000002"
+7) "Hersheys"
+8) "3.4500000000000002"
+127.0.0.1:6379> ZINCRBY store -1.00 "Hersheys"
+"2.4500000000000002"
+127.0.0.1:6379> ZRANGE store 0 -1 WITHSCORES
+1) "Apple"
+2) "1"
+3) "Coke"
+4) "1.79"
+5) "Hersheys"
+6) "2.4500000000000002"
+7) "Cheetos"
+8) "2.9900000000000002"
 ```
 
 10. (2 points) When using 2-factor authentication, many web sites send the user a link to confirm their identity. These links typically expire within 5 minutes. Reproduce this concept in Redis by storing a key named 'link' whose value is a URL (your choice), that expires in 5 minutes. Do it in a single command. Check to ensure that the link exists. Write the commands below including the command prompts:
 ```
-
+127.0.0.1:6379> SETEX link 300 "https://example.com/verify?id=abc123"
+OK
+127.0.0.1:6379> EXISTS link
+(integer) 1
 ```
 
 ## Day 2
